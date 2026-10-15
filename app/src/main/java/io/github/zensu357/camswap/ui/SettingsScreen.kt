@@ -34,7 +34,7 @@ import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.SettingsInputAntenna
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.outlined.FolderSpecial
@@ -559,7 +559,7 @@ fun SettingsScreen(viewModel: MainViewModel) {
             SettingsDivider()
 
             SettingsClickRow(
-                icon = Icons.Default.VerifiedUser,
+                icon = Icons.Default.Security,
                 title = stringResource(R.string.license_manage_btn),
                 subtitle = stringResource(R.string.copyright_mustafa),
                 onClick = {
