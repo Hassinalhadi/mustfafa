@@ -38,13 +38,18 @@ jobs:
       - name: Install Python Libraries
         run: pip install cryptography Pillow pyyaml
 
-      # 5. مزامنة المكتبات الفرعية (Dobby) وتحديث مستودعات Gradle الرسمية
-      - name: Sync Submodules & Configure Repositories
+      # 5. مزامنة وتنزيل مكتبة Dobby (C++ Hook) وتحديث مستودعات Gradle الرسمية
+      - name: Sync Submodules & Download Dobby Library
         run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive --force
-          git submodule foreach --recursive git reset --hard
-          git submodule foreach --recursive git clean -fdx
+          git submodule sync --recursive || true
+          git submodule update --init --recursive --force || true
+          if [ ! -f "app/src/main/cpp/third_party/Dobby/CMakeLists.txt" ]; then
+            echo "Dobby submodule directory is empty; cloning Dobby directly..."
+            rm -rf app/src/main/cpp/third_party/Dobby
+            mkdir -p app/src/main/cpp/third_party
+            git clone --depth 1 --recurse-submodules https://github.com/jmpews/Dobby.git app/src/main/cpp/third_party/Dobby
+          fi
+          ls -la app/src/main/cpp/third_party/Dobby/CMakeLists.txt
           if [ -f gradle/wrapper/gradle-wrapper.properties ]; then
             sed -i 's|https://mirrors.cloud.tencent.com/gradle/|https://services.gradle.org/distributions/|g' gradle/wrapper/gradle-wrapper.properties
           fi
